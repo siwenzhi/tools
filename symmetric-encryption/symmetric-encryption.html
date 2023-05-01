@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>对称加密</title>
+	<meta charset="UTF-8">
+	<style>
+		.container {
+			text-align: center;
+			margin-top: 50px;
+		}
+
+		h1 {
+			font-size: 32px;
+			font-weight: bold;
+		}
+
+		label {
+			font-size: 24px;
+			font-weight: bold;
+			margin-right: 10px;
+		}
+
+		input[type="text"] {
+			width: 300px;
+			height: 40px;
+			font-size: 24px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			padding-left: 10px;
+		}
+
+		input[type="password"] {
+			width: 300px;
+			height: 40px;
+			font-size: 24px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			padding-left: 10px;
+		}
+
+		select {
+			width: 150px;
+			height: 40px;
+			font-size: 24px;
+			margin-top: 20px;
+			margin-left: 10px;
+		}
+
+		button {
+			width: 150px;
+			height: 40px;
+			font-size: 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			margin-top: 20px;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+
+		p {
+			font-size: 24px;
+			font-weight: bold;
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>对称加密</h1>
+		<label for="input">加密信息：</label>
+		<input type="text" id="input"><br>
+		<label for="key">密钥：</label>
+		<input type="password" id="key"><br>
+		<label for="algorithm">加密方式：</label>
+		<select id="algorithm">
+			<option value="aes">AES</option>
+			<option value="des">DES</option>
+		</select><br>
+		<button onclick="encrypt()">加密</button>
+		<p><textarea id="output" rows="3"></textarea></p>
+		<button onclick="copyToClipboard()">复制</button>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+	<script>
+		async function copyToClipboard() {
+		  var copyText = document.getElementById("output");
+		  await navigator.clipboard.writeText(copyText.value);
+		}
+
+		function encrypt() {
+		  var message = document.getElementById("input").value;
+		  var key = document.getElementById("key").value;
+		  var algorithm = document.getElementById("algorithm").value;
+		  var result;
+
+		  if (algorithm == "aes") {
+		    result = CryptoJS.AES.encrypt(message, key).toString();
+		  } else if (algorithm == "des") {
+		    result = CryptoJS.DES.encrypt(message, key).toString();
+		  } else {
+		    alert("请选择加密方式");
+		    return;
+		  }
+
+		  document.getElementById("output").value = result;
+		}
+	</script>
+</body>
+</html>
